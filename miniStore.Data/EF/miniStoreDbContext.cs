@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using miniStore.Data.Configurations;
 using miniStore.Data.Entities;
 using miniStore.Data.Extensions;
@@ -9,7 +11,7 @@ using System.Text;
 
 namespace miniStore.Data.EF
 {
-    public class miniStoreDbContext : DbContext
+    public class miniStoreDbContext : IdentityDbContext
     {
         public miniStoreDbContext(DbContextOptions options) : base(options)
         {
@@ -31,6 +33,17 @@ namespace miniStore.Data.EF
             modelBuilder.ApplyConfiguration(new ProductTranslationConfiguration());
             modelBuilder.ApplyConfiguration(new PromotionConfiguration());
             modelBuilder.ApplyConfiguration(new TransactionConfiguration());
+
+            modelBuilder.ApplyConfiguration(new AppRoleConfiguration());
+            modelBuilder.ApplyConfiguration(new AppUserConfiguration());
+
+
+            modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
+            modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserClaims");
+            modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("AppUserClaims");
+            modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable("AppUserClaims");
+            modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserClaims");
+
 
             modelBuilder.Seed();
         }
