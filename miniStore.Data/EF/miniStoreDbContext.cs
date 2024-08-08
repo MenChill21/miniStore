@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using miniStore.Data.Configurations;
 using miniStore.Data.Entities;
+using miniStore.Data.Extensions;
 using System;
 using System.Collections.Generic;
 
@@ -30,6 +31,8 @@ namespace miniStore.Data.EF
             modelBuilder.ApplyConfiguration(new ProductTranslationConfiguration());
             modelBuilder.ApplyConfiguration(new PromotionConfiguration());
             modelBuilder.ApplyConfiguration(new TransactionConfiguration());
+
+            modelBuilder.Seed();
         }
 
 
