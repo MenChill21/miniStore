@@ -28,6 +28,8 @@ namespace miniStore.Data.Configurations
 
 
             builder.Property(x => x.ShipPhoneNumber).IsRequired().HasMaxLength(200);
+            builder.HasOne(a => a.AppUser).WithMany(o => o.Orders ).HasForeignKey(a => a.UserId);
+
         }
     }
 }

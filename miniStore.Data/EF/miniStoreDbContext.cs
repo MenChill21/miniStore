@@ -11,7 +11,7 @@ using System.Text;
 
 namespace miniStore.Data.EF
 {
-    public class miniStoreDbContext : IdentityDbContext
+    public class miniStoreDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     {
         public miniStoreDbContext(DbContextOptions options) : base(options)
         {
@@ -39,10 +39,10 @@ namespace miniStore.Data.EF
 
 
             modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
-            modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserClaims");
-            modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("AppUserClaims");
-            modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable("AppUserClaims");
-            modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserClaims");
+            modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });
+            modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("AppUserLogins").HasKey(x => x.UserId);
+            modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable("AppRoleClaims");
+            modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => x.UserId);
 
 
             modelBuilder.Seed();
