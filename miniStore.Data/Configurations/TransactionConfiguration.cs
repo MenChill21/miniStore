@@ -16,6 +16,8 @@ namespace miniStore.Data.Configurations
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id).UseIdentityColumn();
+            builder.HasOne(a => a.AppUser).WithMany(t => t.Transactions ).HasForeignKey(a => a.UserId);
+
         }
     }
 }

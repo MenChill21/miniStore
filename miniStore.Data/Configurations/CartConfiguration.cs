@@ -16,6 +16,7 @@ namespace miniStore.Data.Configurations
 
             builder.Property(x => x.Id).UseIdentityColumn();
             builder.HasOne(p => p.Product).WithMany(c => c.Carts).HasForeignKey(c=>c.ProductId);
+            builder.HasOne(a => a.AppUser).WithMany(c => c.Carts).HasForeignKey(a => a.UserId);
         }
     }
 }
