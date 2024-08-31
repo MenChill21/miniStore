@@ -1,14 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
-	
+
   <ItemGroup>
-	<FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.7.3" />
   </ItemGroup>
-	
+
   <ItemGroup>
+    <ProjectReference Include="..\miniStore.Application\miniStore.Application.csproj" />
     <ProjectReference Include="..\miniStore.Data\miniStore.Data.csproj" />
     <ProjectReference Include="..\miniStore.Utilities\miniStore.Utilities.csproj" />
     <ProjectReference Include="..\miniStore.ViewModels\miniStore.ViewModels.csproj" />
