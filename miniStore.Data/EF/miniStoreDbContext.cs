@@ -36,6 +36,8 @@ namespace miniStore.Data.EF
 
             modelBuilder.ApplyConfiguration(new AppRoleConfiguration());
             modelBuilder.ApplyConfiguration(new AppUserConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductImageConfiguration());
+
 
 
             modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
@@ -71,5 +73,6 @@ namespace miniStore.Data.EF
 
 
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
     }
 }
