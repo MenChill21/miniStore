@@ -5,15 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.7.3" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\miniStore.Application\miniStore.Application.csproj" />
     <ProjectReference Include="..\miniStore.Data\miniStore.Data.csproj" />
     <ProjectReference Include="..\miniStore.Utilities\miniStore.Utilities.csproj" />
     <ProjectReference Include="..\miniStore.ViewModels\miniStore.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\user-content\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
 </Project>

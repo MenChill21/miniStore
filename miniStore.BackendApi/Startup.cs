@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using miniStore.Application.Catalog.Products;
+using miniStore.Application.Common;
 using miniStore.Data.EF;
 using System;
 using System.Collections.Generic;
@@ -31,11 +32,17 @@ namespace miniStore.BackendApi
                 options.UseSqlServer(Configuration.GetConnectionString("miniStoreDb")));
 
             services.AddTransient<IPublicProductService, PublicProductService>();
+            services.AddTransient<IStorageService, FileStorageService>();
+            services.AddTransient<IManageProductService, ManageProductService>();
+
+
             services.AddControllersWithViews();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger miniStore", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +51,11 @@ namespace miniStore.BackendApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger(c =>
+                {
+                    c.RouteTemplate = "/swagger/{documentName}/swagger.json";
+                });
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
             }
             else
             {
@@ -57,12 +69,12 @@ namespace miniStore.BackendApi
             app.UseRouting();
 
             app.UseAuthorization();
-            app.UseSwagger();
+            //app.UseSwagger();
 
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger miniStore V1");
-            });
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger miniStore V1");
+            //});
 
             app.UseEndpoints(endpoints =>
             {

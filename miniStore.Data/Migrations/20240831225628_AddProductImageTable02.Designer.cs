@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using miniStore.Data.EF;
 
 namespace miniStore.Data.Migrations
 {
     [DbContext(typeof(miniStoreDbContext))]
-    partial class miniStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240831225628_AddProductImageTable02")]
+    partial class AddProductImageTable02
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -180,7 +182,7 @@ namespace miniStore.Data.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "116500ca-5692-47ef-ab89-d74d28753969",
+                            ConcurrencyStamp = "8b0ebd5b-77e7-417b-a958-b43350696bb6",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -257,7 +259,7 @@ namespace miniStore.Data.Migrations
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b9a19f7a-4062-4ec3-9a3f-ba68f84e6b00",
+                            ConcurrencyStamp = "7fe6176b-219c-497a-8fdd-d4fd47b80f98",
                             Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "tedu.international@gmail.com",
                             EmailConfirmed = true,
@@ -266,7 +268,7 @@ namespace miniStore.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "tedu.international@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMS8ylAnVFUKSADcowdlYt/+BdDQya5cSgu8+jNsvWAZLaJiCUIkst7KeEW41mW4zw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENQP4KTRDrvNUDa1TKhyXKK5H7zj0L7DOf+aRkELA4RCgCU+4KlufvqI3nHxZtmcqA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -615,7 +617,7 @@ namespace miniStore.Data.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2024, 9, 1, 21, 20, 24, 875, DateTimeKind.Local).AddTicks(2578),
+                            DateCreated = new DateTime(2024, 9, 1, 5, 56, 27, 612, DateTimeKind.Local).AddTicks(1752),
                             OriginalPrice = 100000m,
                             Price = 200000m,
                             Stock = 0,

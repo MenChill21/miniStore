@@ -10,6 +10,6 @@ namespace miniStore.Application.Catalog.Products
     public interface IPublicProductService
     {
         Task<PagedResult<ProductViewModel>> GetAllByCatagoryId(GetPublicProductPagingRequest request);
-        Task<List<ProductViewModel>> GetAll();
+        Task<List<ProductViewModel>> GetAll(string language);
     }
 }
