@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using miniStore.Application.System.Users;
@@ -14,14 +15,18 @@ namespace miniStore.BackendApi.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
-        public UsersController(IUserService userService) {
+        private readonly IValidator<LoginRequest> _validator;
+        public UsersController(IUserService userService, IValidator<LoginRequest> validator) {
             _userService = userService;
+            _validator = validator;
         }
 
         [HttpPost("authenticate")]
         [AllowAnonymous]
         public async Task<IActionResult> Authenticate([FromForm]LoginRequest request)
         {
+            var validations= await _validator.ValidateAsync(request);
+            if (!validations.IsValid) return BadRequest(validations.Errors);
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var resultToken = await _userService.Authenticate(request);
 
