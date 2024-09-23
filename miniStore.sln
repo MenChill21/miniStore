@@ -18,7 +18,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "miniStore.ViewModels", "min
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "miniStore.Utilities", "miniStore.Utilities\miniStore.Utilities.csproj", "{D5A6E4BD-3B68-41FA-8DC1-D4CF618EA5B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "miniStore.BackendApi", "miniStore.BackendApi\miniStore.BackendApi.csproj", "{9C04502F-A7D2-4653-B85F-1044D55C8D7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "miniStore.BackendApi", "miniStore.BackendApi\miniStore.BackendApi.csproj", "{9C04502F-A7D2-4653-B85F-1044D55C8D7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "miniStore.AdminApp", "miniStore.AdminApp\miniStore.AdminApp.csproj", "{8E77C187-FDB4-4405-8F43-8D0A910BE4A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +52,10 @@ Global
 		{9C04502F-A7D2-4653-B85F-1044D55C8D7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C04502F-A7D2-4653-B85F-1044D55C8D7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C04502F-A7D2-4653-B85F-1044D55C8D7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E77C187-FDB4-4405-8F43-8D0A910BE4A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E77C187-FDB4-4405-8F43-8D0A910BE4A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E77C187-FDB4-4405-8F43-8D0A910BE4A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E77C187-FDB4-4405-8F43-8D0A910BE4A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
