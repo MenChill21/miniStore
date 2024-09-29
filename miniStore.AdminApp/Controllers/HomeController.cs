@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using miniStore.AdminApp.Models;
+using miniStore.Utilities.Constants;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -22,7 +25,7 @@ namespace miniStore.AdminApp.Controllers
 
         public IActionResult Index()
         {
-            var user = User.Identity.Name;
+            //var user = User.Identity.Name;
             return View();
         }
 
@@ -35,6 +38,15 @@ namespace miniStore.AdminApp.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpPost]
+        public IActionResult Language(NavigationViewModel viewModel)
+        {
+            HttpContext.Session.SetString(SystemConstants.AppSettings.DefaultLanguageId,
+                viewModel.CurrentLanguageId);
+
+            return RedirectToAction("Index");
         }
     }
 }

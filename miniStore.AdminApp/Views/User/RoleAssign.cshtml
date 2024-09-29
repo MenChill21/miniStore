@@ -1,0 +1,37 @@
+﻿@model miniStore.ViewModels.System.Users.RoleAssignRequest
+
+@{
+    ViewData["Title"] = "RoleAssign";
+}
+
+<h1>RoleAssign</h1>
+
+<h4>RoleAssignRequest</h4>
+<hr />
+<div class="row">
+    <<div class="card-body">
+        <form asp-action="RoleAssign">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            @for (var i = 0; i < Model.Roles.Count; i++)
+            {
+                <div class="form-group">
+                    <label>
+                        @Model.Roles[i].Name
+                        <input type="checkbox" asp-for="Roles[i].Selected" />
+                        <input type="hidden" asp-for="Roles[i].Id" />
+                        <input type="hidden" asp-for="Roles[i].Name" />
+                    </label>
+                </div>
+            }
+            <div class="form-group">
+                <input type="submit" value="Lưu lại" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

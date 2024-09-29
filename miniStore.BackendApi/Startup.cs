@@ -11,8 +11,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using miniStore.Application.Catalog.Categories;
 using miniStore.Application.Catalog.Products;
 using miniStore.Application.Common;
+using miniStore.Application.System.Laguages;
+using miniStore.Application.System.Roles;
 using miniStore.Application.System.Users;
 using miniStore.Data.EF;
 using miniStore.Data.Entities;
@@ -43,12 +46,17 @@ namespace miniStore.BackendApi
                 .AddEntityFrameworkStores<miniStoreDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddTransient<IPublicProductService, PublicProductService>();
+            services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<ICategoryService, CategoryService>();
+
             services.AddTransient<IStorageService, FileStorageService>();
-            services.AddTransient<IManageProductService, ManageProductService>();
             services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IRoleService, RoleService>();
+            services.AddTransient<ILanguageService, LanguageService>();
+
+
 
             services.AddControllers()
                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());
