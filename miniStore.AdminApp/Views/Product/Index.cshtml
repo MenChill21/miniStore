@@ -1,0 +1,128 @@
+﻿@using miniStore.ViewModels.Common
+@model PagedResult<miniStore.ViewModels.Catalog.Products.ProductVM>
+@{
+    ViewData["Title"] = "List products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section Scripts {
+    <script>
+        setTimeout(() => {
+            $('#msgAlert').fadeOut('slow')
+        }, 2000)
+
+    </script>
+}
+
+
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+
+
+    @if (ViewBag.SuccessMsg != null)
+    {
+        <div id="msgAlert" class="alert alert-primary" role="alert">@ViewBag.SuccessMsg</div>
+    }
+
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="row">
+                <div class="col-md-6 col-xs-12">
+                    <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <div class="row">
+                                <div>
+                                    <input type="text" name="keyword" value="@ViewBag.Keyword" class="form-control bg-light border-0 small" placeholder="Search for..."
+                                           aria-label="Search" aria-describedby="basic-addon2">
+                                </div>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit">
+                                        Search
+                                    </button>
+                                    <button type="button" class="btn btn-primary" onclick="window.location.href='/product/index'">
+                                        Reset
+                                    </button>
+                                </div>
+                                <div>
+                                    <select name="categoryId" asp-items="@ViewBag.Categories" class="form-control" onchange="this.form.submit()">
+                                        <option>--Choice Category--</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                Mã SP
+                            </th>
+                            <th>
+                                Tên
+                            </th>
+                            <th>
+                                Giá nhập
+                            </th>
+                            <th>
+                                Giá bán
+                            </th>
+                            <th>
+                                Số lượng tồn
+                            </th>
+
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OriginalPrice)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Price)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Stock)
+                                </td>
+
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+                                    @Html.ActionLink("Category Assign", "CategoryAssign", new { id = item.Id }) |
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+            @await Component.InvokeAsync("Pager", Model)
+        </div>
+    </div>
+
+</div>
