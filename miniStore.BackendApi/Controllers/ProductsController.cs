@@ -47,6 +47,14 @@ namespace miniStore.BackendApi.Controllers
             return Ok(product);
         }
 
+        [HttpGet("featured/{languageId}/{take}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetFeaturedProducts(string languageId, int take )
+        {
+            var products = await _productService.GetFeaturedProducts(languageId, take);
+            return Ok(products);
+        }
+
         [HttpPost]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)

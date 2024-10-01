@@ -17,6 +17,7 @@ using miniStore.Application.Common;
 using miniStore.Application.System.Laguages;
 using miniStore.Application.System.Roles;
 using miniStore.Application.System.Users;
+using miniStore.Application.Utilities.Slides;
 using miniStore.Data.EF;
 using miniStore.Data.Entities;
 using miniStore.ViewModels.System.Users;
@@ -55,6 +56,8 @@ namespace miniStore.BackendApi
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<ILanguageService, LanguageService>();
+            services.AddTransient<ISlideService, SlideService>();
+
 
 
 

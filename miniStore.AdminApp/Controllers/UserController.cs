@@ -3,12 +3,11 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using miniStore.AdminApp.Services;
 using miniStore.ViewModels.System.Users;
 using System.Threading.Tasks;
-using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 using System;
 using miniStore.ViewModels.Common;
+using miniStore.ApiIntergration;
 
 namespace miniStore.AdminApp.Controllers
 {

@@ -25,7 +25,8 @@ namespace miniStore.Application.Catalog.Categories
             return await query.Select(x => new CategoryVM
             {
                 Id = x.c.Id,
-                Name = x.ct.Name
+                Name = x.ct.Name,
+                ParenId= x.c.ParentId,
             }).ToListAsync();
         }
     }

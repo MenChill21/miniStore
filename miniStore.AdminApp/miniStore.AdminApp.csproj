@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\miniStore.ApiIntergration\miniStore.ApiIntergration.csproj" />
     <ProjectReference Include="..\miniStore.Utilities\miniStore.Utilities.csproj" />
     <ProjectReference Include="..\miniStore.ViewModels\miniStore.ViewModels.csproj" />
   </ItemGroup>
