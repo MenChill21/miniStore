@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
-using miniStore.AdminApp.Services;
 using miniStore.ViewModels.System.Users;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -13,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using miniStore.Utilities.Constants;
+using miniStore.ApiIntergration;
 
 namespace miniStore.AdminApp.Controllers
 {

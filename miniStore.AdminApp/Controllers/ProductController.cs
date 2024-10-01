@@ -2,12 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
-using miniStore.AdminApp.Services;
+using miniStore.ApiIntergration;
 using miniStore.Utilities.Constants;
 using miniStore.ViewModels.Catalog.Products;
 using miniStore.ViewModels.Common;
-using miniStore.ViewModels.System.Users;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 

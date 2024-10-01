@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using miniStore.AdminApp.Models;
-using miniStore.AdminApp.Services;
+using miniStore.ApiIntergration;
 using miniStore.Utilities.Constants;
 using System.Threading.Tasks;
 

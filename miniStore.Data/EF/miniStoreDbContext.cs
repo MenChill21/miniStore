@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using miniStore.Data.Configurations;
 using miniStore.Data.Entities;
-using miniStore.Data.Extensions;
+using miniStore.Data.Extenions;
 using System;
 using System.Collections.Generic;
 
@@ -37,6 +37,8 @@ namespace miniStore.Data.EF
             modelBuilder.ApplyConfiguration(new AppRoleConfiguration());
             modelBuilder.ApplyConfiguration(new AppUserConfiguration());
             modelBuilder.ApplyConfiguration(new ProductImageConfiguration());
+            modelBuilder.ApplyConfiguration(new SlideConfiguration());
+
 
 
 
@@ -74,5 +76,8 @@ namespace miniStore.Data.EF
 
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
+
+        public DbSet<Slide> Slides { get; set; }
+
     }
 }

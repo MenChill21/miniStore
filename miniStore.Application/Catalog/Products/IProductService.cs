@@ -40,5 +40,8 @@ namespace miniStore.Application.Catalog.Products
         Task<List<ProductVM>> GetAll(string language);
 
         Task<ApiResult<bool>> CategoryAssign(int id, CategoryAssignRequest request);
+
+        Task<List<ProductVM>> GetFeaturedProducts(string languageId, int take);
+
     }
 }

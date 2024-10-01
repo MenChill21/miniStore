@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using miniStore.ApiIntergration;
+using miniStore.Utilities.Constants;
 using miniStore.WebApp.Models;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace miniStore.WebApp.Controllers
@@ -12,20 +15,42 @@ namespace miniStore.WebApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IProductApiClient _productApiClient;
+        private readonly ISlideApiClient _slideApiClient;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ISlideApiClient slideApiClient,
+            IProductApiClient productApiClient)
         {
             _logger = logger;
+            _slideApiClient = slideApiClient;
+            _productApiClient = productApiClient;   
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var culture = CultureInfo.CurrentCulture.Name;
+            var HomeViewModel = new HomeViewModel
+            {
+                Slides = await _slideApiClient.GetAll(),
+                FeaturedProducts = await _productApiClient.GetFeaturedProducts(culture, SystemConstants.AppSettings.NumberOfFeaturedProducts)
+            };
+            return View(HomeViewModel);
         }
 
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        public IActionResult SetCultureCookie(string cltr, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(cltr)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+                );
+
+            return LocalRedirect(returnUrl);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

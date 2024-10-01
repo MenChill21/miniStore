@@ -180,7 +180,7 @@ namespace miniStore.Data.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "116500ca-5692-47ef-ab89-d74d28753969",
+                            ConcurrencyStamp = "ccf7995f-2d37-4b03-a6c6-58ccda28cafc",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -257,16 +257,16 @@ namespace miniStore.Data.Migrations
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b9a19f7a-4062-4ec3-9a3f-ba68f84e6b00",
-                            Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "tedu.international@gmail.com",
+                            ConcurrencyStamp = "a3f72cf8-62e1-40f8-b87e-cbb48b086887",
+                            Dob = new DateTime(2000, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "menhua605@gmail.com",
                             EmailConfirmed = true,
-                            FirstName = "Toan",
-                            LastName = "Bach",
+                            FirstName = "Men",
+                            LastName = "Hua",
                             LockoutEnabled = false,
-                            NormalizedEmail = "tedu.international@gmail.com",
+                            NormalizedEmail = "menhua605@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMS8ylAnVFUKSADcowdlYt/+BdDQya5cSgu8+jNsvWAZLaJiCUIkst7KeEW41mW4zw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGSwMyKKN7pvWurOUkEelQS8muU2hkN23fOQ6o9L38BWK3KGmmA+LWXbuqhTiPzfkQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -400,7 +400,7 @@ namespace miniStore.Data.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
-                            LanguageId = "vi-VN",
+                            LanguageId = "vi",
                             Name = "Áo nam",
                             SeoAlias = "ao-nam",
                             SeoDescription = "Sản phẩm áo thời trang nam",
@@ -410,7 +410,7 @@ namespace miniStore.Data.Migrations
                         {
                             Id = 2,
                             CategoryId = 1,
-                            LanguageId = "en-US",
+                            LanguageId = "en",
                             Name = "Men Shirt",
                             SeoAlias = "men-shirt",
                             SeoDescription = "The shirt products for men",
@@ -420,7 +420,7 @@ namespace miniStore.Data.Migrations
                         {
                             Id = 3,
                             CategoryId = 2,
-                            LanguageId = "vi-VN",
+                            LanguageId = "vi",
                             Name = "Áo nữ",
                             SeoAlias = "ao-nu",
                             SeoDescription = "Sản phẩm áo thời trang nữ",
@@ -430,7 +430,7 @@ namespace miniStore.Data.Migrations
                         {
                             Id = 4,
                             CategoryId = 2,
-                            LanguageId = "en-US",
+                            LanguageId = "en",
                             Name = "Women Shirt",
                             SeoAlias = "women-shirt",
                             SeoDescription = "The shirt products for women",
@@ -497,13 +497,13 @@ namespace miniStore.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "vi-VN",
+                            Id = "vi",
                             IsDefault = true,
                             Name = "Tiếng Việt"
                         },
                         new
                         {
-                            Id = "en-US",
+                            Id = "en",
                             IsDefault = false,
                             Name = "English"
                         });
@@ -615,7 +615,7 @@ namespace miniStore.Data.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2024, 9, 1, 21, 20, 24, 875, DateTimeKind.Local).AddTicks(2578),
+                            DateCreated = new DateTime(2024, 9, 30, 13, 52, 48, 162, DateTimeKind.Local).AddTicks(6319),
                             OriginalPrice = 100000m,
                             Price = 200000m,
                             Stock = 0,
@@ -737,7 +737,7 @@ namespace miniStore.Data.Migrations
                             Id = 1,
                             Description = "Áo sơ mi nam trắng Việt Tiến",
                             Details = "Áo sơ mi nam trắng Việt Tiến",
-                            LanguageId = "vi-VN",
+                            LanguageId = "vi",
                             Name = "Áo sơ mi nam trắng Việt Tiến",
                             ProductId = 1,
                             SeoAlias = "ao-so-mi-nam-trang-viet-tien",
@@ -749,7 +749,7 @@ namespace miniStore.Data.Migrations
                             Id = 2,
                             Description = "Viet Tien Men T-Shirt",
                             Details = "Viet Tien Men T-Shirt",
-                            LanguageId = "en-US",
+                            LanguageId = "en",
                             Name = "Viet Tien Men T-Shirt",
                             ProductId = 1,
                             SeoAlias = "viet-tien-men-t-shirt",
@@ -798,6 +798,108 @@ namespace miniStore.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Promotions");
+                });
+
+            modelBuilder.Entity("miniStore.Data.Entities.Slide", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Slides");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.",
+                            Image = "/themes/images/carousel/1.png",
+                            Name = "Second Thumbnail label",
+                            SortOrder = 1,
+                            Status = 1,
+                            Url = "#"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.",
+                            Image = "/themes/images/carousel/2.png",
+                            Name = "Second Thumbnail label",
+                            SortOrder = 2,
+                            Status = 1,
+                            Url = "#"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.",
+                            Image = "/themes/images/carousel/3.png",
+                            Name = "Second Thumbnail label",
+                            SortOrder = 3,
+                            Status = 1,
+                            Url = "#"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.",
+                            Image = "/themes/images/carousel/4.png",
+                            Name = "Second Thumbnail label",
+                            SortOrder = 4,
+                            Status = 1,
+                            Url = "#"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.",
+                            Image = "/themes/images/carousel/5.png",
+                            Name = "Second Thumbnail label",
+                            SortOrder = 5,
+                            Status = 1,
+                            Url = "#"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.",
+                            Image = "/themes/images/carousel/6.png",
+                            Name = "Second Thumbnail label",
+                            SortOrder = 6,
+                            Status = 1,
+                            Url = "#"
+                        });
                 });
 
             modelBuilder.Entity("miniStore.Data.Entities.Transaction", b =>

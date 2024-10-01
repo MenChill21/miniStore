@@ -6,19 +6,20 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace miniStore.Data.Extensions
+namespace miniStore.Data.Extenions
 {
-    public static class ModelBuilderExtensions
+    public static class ModelBuilderExtenions
     {
-        public static void Seed(this ModelBuilder modelBuilder) {
+        public static void Seed(this ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<AppConfig>().HasData(
                   new AppConfig() { Key = "HomeTitle", Value = "This is home page of eShopSolution" },
                   new AppConfig() { Key = "HomeKeyword", Value = "This is keyword of eShopSolution" },
                   new AppConfig() { Key = "HomeDescription", Value = "This is description of eShopSolution" }
                   );
             modelBuilder.Entity<Language>().HasData(
-                new Language() { Id = "vi-VN", Name = "Tiếng Việt", IsDefault = true },
-                new Language() { Id = "en-US", Name = "English", IsDefault = false });
+                new Language() { Id = "vi", Name = "Tiếng Việt", IsDefault = true },
+                new Language() { Id = "en", Name = "English", IsDefault = false });
 
             modelBuilder.Entity<Category>().HasData(
                 new Category()
@@ -39,10 +40,10 @@ namespace miniStore.Data.Extensions
                  });
 
             modelBuilder.Entity<CategoryTranslation>().HasData(
-                  new CategoryTranslation() { Id = 1, CategoryId = 1, Name = "Áo nam", LanguageId = "vi-VN", SeoAlias = "ao-nam", SeoDescription = "Sản phẩm áo thời trang nam", SeoTitle = "Sản phẩm áo thời trang nam" },
-                  new CategoryTranslation() { Id = 2, CategoryId = 1, Name = "Men Shirt", LanguageId = "en-US", SeoAlias = "men-shirt", SeoDescription = "The shirt products for men", SeoTitle = "The shirt products for men" },
-                  new CategoryTranslation() { Id = 3, CategoryId = 2, Name = "Áo nữ", LanguageId = "vi-VN", SeoAlias = "ao-nu", SeoDescription = "Sản phẩm áo thời trang nữ", SeoTitle = "Sản phẩm áo thời trang women" },
-                  new CategoryTranslation() { Id = 4, CategoryId = 2, Name = "Women Shirt", LanguageId = "en-US", SeoAlias = "women-shirt", SeoDescription = "The shirt products for women", SeoTitle = "The shirt products for women" }
+                  new CategoryTranslation() { Id = 1, CategoryId = 1, Name = "Áo nam", LanguageId = "vi", SeoAlias = "ao-nam", SeoDescription = "Sản phẩm áo thời trang nam", SeoTitle = "Sản phẩm áo thời trang nam" },
+                  new CategoryTranslation() { Id = 2, CategoryId = 1, Name = "Men Shirt", LanguageId = "en", SeoAlias = "men-shirt", SeoDescription = "The shirt products for men", SeoTitle = "The shirt products for men" },
+                  new CategoryTranslation() { Id = 3, CategoryId = 2, Name = "Áo nữ", LanguageId = "vi", SeoAlias = "ao-nu", SeoDescription = "Sản phẩm áo thời trang nữ", SeoTitle = "Sản phẩm áo thời trang women" },
+                  new CategoryTranslation() { Id = 4, CategoryId = 2, Name = "Women Shirt", LanguageId = "en", SeoAlias = "women-shirt", SeoDescription = "The shirt products for women", SeoTitle = "The shirt products for women" }
                     );
 
             modelBuilder.Entity<Product>().HasData(
@@ -61,7 +62,7 @@ namespace miniStore.Data.Extensions
                      Id = 1,
                      ProductId = 1,
                      Name = "Áo sơ mi nam trắng Việt Tiến",
-                     LanguageId = "vi-VN",
+                     LanguageId = "vi",
                      SeoAlias = "ao-so-mi-nam-trang-viet-tien",
                      SeoDescription = "Áo sơ mi nam trắng Việt Tiến",
                      SeoTitle = "Áo sơ mi nam trắng Việt Tiến",
@@ -73,7 +74,7 @@ namespace miniStore.Data.Extensions
                         Id = 2,
                         ProductId = 1,
                         Name = "Viet Tien Men T-Shirt",
-                        LanguageId = "en-US",
+                        LanguageId = "en",
                         SeoAlias = "viet-tien-men-t-shirt",
                         SeoDescription = "Viet Tien Men T-Shirt",
                         SeoTitle = "Viet Tien Men T-Shirt",
@@ -101,14 +102,14 @@ namespace miniStore.Data.Extensions
                 Id = adminId,
                 UserName = "admin",
                 NormalizedUserName = "admin",
-                Email = "tedu.international@gmail.com",
-                NormalizedEmail = "tedu.international@gmail.com",
+                Email = "menhua605@gmail.com",
+                NormalizedEmail = "menhua605@gmail.com",
                 EmailConfirmed = true,
-                PasswordHash = hasher.HashPassword(null, "Abcd1234$"),
+                PasswordHash = hasher.HashPassword(null, "Admin123@"),
                 SecurityStamp = string.Empty,
-                FirstName = "Toan",
-                LastName = "Bach",
-                Dob = new DateTime(2020, 01, 31)
+                FirstName = "Men",
+                LastName = "Hua",
+                Dob = new DateTime(2000, 01, 21)
             });
 
             modelBuilder.Entity<IdentityUserRole<Guid>>().HasData(new IdentityUserRole<Guid>
@@ -116,6 +117,16 @@ namespace miniStore.Data.Extensions
                 RoleId = roleId,
                 UserId = adminId
             });
+
+            modelBuilder.Entity<Slide>().HasData(
+              new Slide() { Id = 1, Name = "Second Thumbnail label", Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.", SortOrder = 1, Url = "#", Image = "/themes/images/carousel/1.png", Status = Status.Active },
+              new Slide() { Id = 2, Name = "Second Thumbnail label", Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.", SortOrder = 2, Url = "#", Image = "/themes/images/carousel/2.png", Status = Status.Active },
+              new Slide() { Id = 3, Name = "Second Thumbnail label", Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.", SortOrder = 3, Url = "#", Image = "/themes/images/carousel/3.png", Status = Status.Active },
+              new Slide() { Id = 4, Name = "Second Thumbnail label", Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.", SortOrder = 4, Url = "#", Image = "/themes/images/carousel/4.png", Status = Status.Active },
+              new Slide() { Id = 5, Name = "Second Thumbnail label", Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.", SortOrder = 5, Url = "#", Image = "/themes/images/carousel/5.png", Status = Status.Active },
+              new Slide() { Id = 6, Name = "Second Thumbnail label", Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.", SortOrder = 6, Url = "#", Image = "/themes/images/carousel/6.png", Status = Status.Active }
+          );
+
         }
 
     }
