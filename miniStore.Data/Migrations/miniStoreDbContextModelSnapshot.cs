@@ -180,7 +180,7 @@ namespace miniStore.Data.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "ccf7995f-2d37-4b03-a6c6-58ccda28cafc",
+                            ConcurrencyStamp = "70acb47b-22ab-4aaa-8c0a-4b95cdf62975",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -257,7 +257,7 @@ namespace miniStore.Data.Migrations
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a3f72cf8-62e1-40f8-b87e-cbb48b086887",
+                            ConcurrencyStamp = "b396dded-83bc-4fc6-8351-11f9df70d237",
                             Dob = new DateTime(2000, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "menhua605@gmail.com",
                             EmailConfirmed = true,
@@ -266,7 +266,7 @@ namespace miniStore.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "menhua605@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGSwMyKKN7pvWurOUkEelQS8muU2hkN23fOQ6o9L38BWK3KGmmA+LWXbuqhTiPzfkQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELX7ILHG9fz7mWDrYTlOb9EYcf0xAkDf5y9RUniLdEgtSp/XCgYAADm5fqLzuRq7Bw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -588,6 +588,9 @@ namespace miniStore.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool?>("IsFeatured")
+                        .HasColumnType("bit");
+
                     b.Property<decimal>("OriginalPrice")
                         .HasColumnType("decimal(18,2)");
 
@@ -615,7 +618,7 @@ namespace miniStore.Data.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2024, 9, 30, 13, 52, 48, 162, DateTimeKind.Local).AddTicks(6319),
+                            DateCreated = new DateTime(2024, 10, 1, 13, 33, 9, 34, DateTimeKind.Local).AddTicks(5076),
                             OriginalPrice = 100000m,
                             Price = 200000m,
                             Stock = 0,

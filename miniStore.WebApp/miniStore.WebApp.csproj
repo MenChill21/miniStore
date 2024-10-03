@@ -11,13 +11,11 @@
   <ItemGroup>
     <PackageReference Include="LazZiya.ExpressLocalization" Version="4.0.4" />
     <PackageReference Include="LazZiya.TagHelpers" Version="6.0.2" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.32" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\miniStore.ApiIntergration\miniStore.ApiIntergration.csproj" />
-    <ProjectReference Include="..\miniStore.Utilities\miniStore.Utilities.csproj" />
-    <ProjectReference Include="..\miniStore.ViewModels\miniStore.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

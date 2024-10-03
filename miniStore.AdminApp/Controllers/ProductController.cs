@@ -6,6 +6,8 @@ using miniStore.ApiIntergration;
 using miniStore.Utilities.Constants;
 using miniStore.ViewModels.Catalog.Products;
 using miniStore.ViewModels.Common;
+using miniStore.ViewModels.System.Users;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -76,6 +78,67 @@ namespace miniStore.AdminApp.Controllers
             ModelState.AddModelError("", "Add product failed");
             return View(request);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
+
+            var product = await _productApiClient.GetById(id, languageId);
+            var editVM = new ProductUpdateRequest()
+            {
+                Id = product.Id,
+                Description = product.Description,
+                Details = product.Details,
+                Name = product.Name,
+                SeoAlias = product.SeoAlias,
+                SeoDescription = product.SeoDescription,
+                SeoTitle = product.SeoTitle
+            };
+            return View(editVM);
+        }
+
+        [HttpPost]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> Edit([FromForm] ProductUpdateRequest request)
+        {
+            if (!ModelState.IsValid)
+                return View(request);
+
+            var result = await _productApiClient.UpdateProduct(request);
+            if (result)
+            {
+                TempData["result"] = "Update product successful";
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", "Update product failed");
+            return View(request);
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            return View(new ProductDeleteRequest() { Id = id });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(ProductDeleteRequest request)
+        {
+            if (!ModelState.IsValid) return View();
+
+            var result = await _productApiClient.DeleteProduct(request.Id);
+
+            if (result)
+            {
+                TempData["result"] = "Delete product successful";
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", "Delete product failed");
+            return View(request);
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> CategoryAssign(int id)

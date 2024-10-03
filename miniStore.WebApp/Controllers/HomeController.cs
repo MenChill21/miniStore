@@ -14,6 +14,7 @@ namespace miniStore.WebApp.Controllers
 {
     public class HomeController : Controller
     {
+    
         private readonly ILogger<HomeController> _logger;
         private readonly IProductApiClient _productApiClient;
         private readonly ISlideApiClient _slideApiClient;
@@ -32,7 +33,8 @@ namespace miniStore.WebApp.Controllers
             var HomeViewModel = new HomeViewModel
             {
                 Slides = await _slideApiClient.GetAll(),
-                FeaturedProducts = await _productApiClient.GetFeaturedProducts(culture, SystemConstants.AppSettings.NumberOfFeaturedProducts)
+                FeaturedProducts = await _productApiClient.GetFeaturedProducts(culture, SystemConstants.ProductSettings.NumberOfFeaturedProducts),
+                LatestProducts = await _productApiClient.GetLatestProducts(culture, SystemConstants.ProductSettings.NumberOfLatestProducts)
             };
             return View(HomeViewModel);
         }
