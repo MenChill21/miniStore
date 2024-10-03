@@ -14,6 +14,8 @@ namespace miniStore.Data.Entities
         public DateTime DateCreated { set; get; }
         public string SeoAlias { set; get; }
 
+        public bool? IsFeatured { get; set; }
+
         public List<ProductInCategory> ProductInCategories { get; set; }
         public List<OrderDetail> OrderDetails { get; set; }
         public List<Cart> Carts { get; set; }

@@ -189,7 +189,8 @@ namespace miniStore.Data.Migrations
                     Stock = table.Column<int>(nullable: false, defaultValue: 0),
                     ViewCount = table.Column<int>(nullable: false, defaultValue: 0),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    SeoAlias = table.Column<string>(nullable: true)
+                    SeoAlias = table.Column<string>(nullable: true),
+                    IsFeatured = table.Column<bool>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -215,6 +216,24 @@ namespace miniStore.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Promotions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Slides",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(maxLength: 200, nullable: false),
+                    Description = table.Column<string>(maxLength: 200, nullable: false),
+                    Url = table.Column<string>(maxLength: 200, nullable: false),
+                    Image = table.Column<string>(maxLength: 200, nullable: false),
+                    SortOrder = table.Column<int>(nullable: false),
+                    Status = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Slides", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -448,7 +467,7 @@ namespace miniStore.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AppRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
-                values: new object[] { new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"), "a2fe3817-ac27-4bd9-9b29-c36798af70ac", "Administrator role", "admin", "admin" });
+                values: new object[] { new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"), "70acb47b-22ab-4aaa-8c0a-4b95cdf62975", "Administrator role", "admin", "admin" });
 
             migrationBuilder.InsertData(
                 table: "AppUserRoles",
@@ -458,7 +477,7 @@ namespace miniStore.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AppUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Dob", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), 0, "d3028281-270d-45ff-aa5f-1f6df1e3f760", new DateTime(2000, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), "menhua605@gmail.com", true, "Men", "Hua", false, null, "menhua605@gmail.com", "admin", "AQAAAAEAACcQAAAAEB+kIfP3iGby5FrkHU94mgMp58sQUnwkoQT0QUsjaqk68Qh5DwBgOdRT27u0+QroZg==", null, false, "", false, "admin" });
+                values: new object[] { new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), 0, "b396dded-83bc-4fc6-8351-11f9df70d237", new DateTime(2000, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), "menhua605@gmail.com", true, "Men", "Hua", false, null, "menhua605@gmail.com", "admin", "AQAAAAEAACcQAAAAELX7ILHG9fz7mWDrYTlOb9EYcf0xAkDf5y9RUniLdEgtSp/XCgYAADm5fqLzuRq7Bw==", null, false, "", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
@@ -474,14 +493,27 @@ namespace miniStore.Data.Migrations
                 columns: new[] { "Id", "IsDefault", "Name" },
                 values: new object[,]
                 {
-                    { "vi", true, "Tiếng Việt" },
-                    { "en", false, "English" }
+                    { "en", false, "English" },
+                    { "vi", true, "Tiếng Việt" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "DateCreated", "OriginalPrice", "Price", "SeoAlias" },
-                values: new object[] { 1, new DateTime(2024, 9, 29, 22, 53, 58, 575, DateTimeKind.Local).AddTicks(4828), 100000m, 200000m, null });
+                columns: new[] { "Id", "DateCreated", "IsFeatured", "OriginalPrice", "Price", "SeoAlias" },
+                values: new object[] { 1, new DateTime(2024, 10, 1, 13, 33, 9, 34, DateTimeKind.Local).AddTicks(5076), null, 100000m, 200000m, null });
+
+            migrationBuilder.InsertData(
+                table: "Slides",
+                columns: new[] { "Id", "Description", "Image", "Name", "SortOrder", "Status", "Url" },
+                values: new object[,]
+                {
+                    { 1, "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.", "/themes/images/carousel/1.png", "Second Thumbnail label", 1, 1, "#" },
+                    { 2, "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.", "/themes/images/carousel/2.png", "Second Thumbnail label", 2, 1, "#" },
+                    { 3, "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.", "/themes/images/carousel/3.png", "Second Thumbnail label", 3, 1, "#" },
+                    { 4, "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.", "/themes/images/carousel/4.png", "Second Thumbnail label", 4, 1, "#" },
+                    { 5, "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.", "/themes/images/carousel/5.png", "Second Thumbnail label", 5, 1, "#" },
+                    { 6, "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.", "/themes/images/carousel/6.png", "Second Thumbnail label", 6, 1, "#" }
+                });
 
             migrationBuilder.InsertData(
                 table: "CategoryTranslations",
@@ -610,6 +642,9 @@ namespace miniStore.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Promotions");
+
+            migrationBuilder.DropTable(
+                name: "Slides");
 
             migrationBuilder.DropTable(
                 name: "Transactions");

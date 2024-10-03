@@ -66,5 +66,24 @@ namespace miniStore.ApiIntergration
             }
             throw new Exception(body);
         }
+
+        protected async Task<bool> Delete(string url)
+        {
+            var sessions = _httpContextAccessor
+                .HttpContext
+                .Session
+                .GetString(SystemConstants.AppSettings.Token);
+
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration[SystemConstants.AppSettings.BaseAddress]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.DeleteAsync(url);
+            if (response.IsSuccessStatusCode)
+            {
+               return true;
+            }
+            return false;
+        }
+
     }
 }

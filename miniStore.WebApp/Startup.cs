@@ -72,6 +72,8 @@ namespace miniStore.WebApp
             services.AddTransient<IProductApiClient, ProductApiClient>();
             services.AddTransient<ICategoryApiClient, CategoryApiClient>();
 
+            services.AddRazorPages()
+                .AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -99,7 +101,7 @@ namespace miniStore.WebApp
             {
                 endpoints.MapControllerRoute(
                    name: "Product Category En",
-                   pattern: "{culture}/categories/{id}",new
+                   pattern: "{culture}/categories/{id}", new
                    {
                        controller = "Product",
                        action = "Category"
@@ -112,6 +114,22 @@ namespace miniStore.WebApp
                       controller = "Product",
                       action = "Category"
                   });
+
+                endpoints.MapControllerRoute(
+                 name: "Product Detail Vi",
+                 pattern: "{culture}/san-pham/{id}", new
+                 {
+                     controller = "Product",
+                     action = "Detail"
+                 });
+
+                endpoints.MapControllerRoute(
+                 name: "Product Detail En",
+                 pattern: "{culture}/products/{id}", new
+                 {
+                     controller = "Product",
+                     action = "Detail"
+                 });
 
                 endpoints.MapControllerRoute(
                     name: "default",

@@ -8,6 +8,7 @@ namespace miniStore.ViewModels.System.Languages
     {
         public string Id { get; set; }
 
+        public bool IsDefault { get; set; }
         public string Name { get; set; }
     }
 }

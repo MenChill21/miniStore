@@ -1,21 +1,19 @@
-﻿using miniStore.Data.EF;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using miniStore.Application.Common;
+using miniStore.Data.EF;
 using miniStore.Data.Entities;
+using miniStore.Utilities.Constants;
+using miniStore.Utilities.Exceptions;
+using miniStore.ViewModels.Catalog.ProductImages;
 using miniStore.ViewModels.Catalog.Products;
 using miniStore.ViewModels.Common;
-using miniStore.Utilities.Exceptions;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using System.Linq;
-using Microsoft.AspNetCore.Http;
 using System.IO;
+using System.Linq;
 using System.Net.Http.Headers;
-using miniStore.Application.Common;
-using Microsoft.EntityFrameworkCore;
-using miniStore.ViewModels.Catalog.ProductImages;
-using Microsoft.AspNetCore.Server.IISIntegration;
-using Microsoft.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace miniStore.Application.Catalog.Products
 {
@@ -23,6 +21,8 @@ namespace miniStore.Application.Catalog.Products
     {
         private readonly miniStoreDbContext _context;
         private readonly IStorageService _storageService;
+        private const string USER_CONTENT_FOLDER_NAME = "user-content";
+
         public ProductService(miniStoreDbContext context, IStorageService storageService)
         {
             _context = context;
@@ -66,6 +66,8 @@ namespace miniStore.Application.Catalog.Products
                                     where ct.LanguageId == languageId && pic.ProductId == productId
                                     select ct.Name).ToListAsync();
 
+            var image = await _context.ProductImages.Where(x => x.ProductId == productId && x.IsDefault == true).FirstOrDefaultAsync();
+
             var productViewModel = new ProductVM()
             {
                 Id = product.Id,
@@ -82,11 +84,38 @@ namespace miniStore.Application.Catalog.Products
                 Stock = product.Stock,
                 ViewCount = product.ViewCount,
                 Categories = categories,
+                ThumbnailImage = image !=null ? image.ImagePath : "no-image.jpg"
             };
             return productViewModel;
         }
         public async Task<int> Create(ProductCreateRequest request)
         {
+            var languages = _context.Languages;
+            var translations = new List<ProductTranslation>();
+
+            foreach (var language in languages) {
+                if (language.Id == request.LanguageId) {
+                    translations.Add(new ProductTranslation {
+                        Name = request.Name,
+                        Description = request.Description,
+                        Details = request.Details,
+                        SeoDescription = request.SeoDescription,
+                        SeoAlias = request.SeoAlias,
+                        SeoTitle = request.SeoTitle,
+                        LanguageId = request.LanguageId
+                    });
+                }
+                else
+                {
+                    translations.Add(new ProductTranslation {
+                        Name = SystemConstants.ProductConstants.NA,
+                        Description = SystemConstants.ProductConstants.NA,
+                        SeoAlias = SystemConstants.ProductConstants.NA,
+                        LanguageId = language.Id
+                    });
+                }
+            }
+
             var product = new Product()
             {
                 Price = request.Price,
@@ -94,19 +123,7 @@ namespace miniStore.Application.Catalog.Products
                 Stock = request.Stock,
                 ViewCount = 0,
                 DateCreated = DateTime.Now,
-                ProductTranslations = new List<ProductTranslation>()
-                {
-                    new ProductTranslation()
-                    {
-                        Name =  request.Name,
-                        Description = request.Description,
-                        Details = request.Details,
-                        SeoDescription = request.SeoDescription,
-                        SeoAlias = request.SeoAlias,
-                        SeoTitle = request.SeoTitle,
-                        LanguageId = request.LanguageId
-                    }
-                },
+                ProductTranslations = translations
             };
             //save image
             if (request.ThumbnailImage != null)
@@ -132,17 +149,14 @@ namespace miniStore.Application.Catalog.Products
             var product = await _context.Products.FindAsync(productId);
             if (product == null) throw new MiniStoreException($"Cannot find a product {productId}");
 
-            var images = product.ProductImages?.Where(x => x.ProductId == productId).ToList();
+            var images = _context.ProductImages.Where(x => x.ProductId == productId);
 
-            if (images != null && images.Any())
+            foreach (var image in images)
             {
-                foreach (var image in images)
-                {
-                    await _storageService.DeleteFileAsync(image.ImagePath);
-                }
+                await _storageService.DeleteFileAsync(image.ImagePath);
             }
 
-            _context.Products.Remove(product);
+             _context.Products.Remove(product);
             return await _context.SaveChangesAsync();
         }
 
@@ -160,6 +174,7 @@ namespace miniStore.Application.Catalog.Products
             productTranslations.Description = request.Description;
             productTranslations.Details = request.Details;
 
+            if(request.ThumbnailImage == null) return await _context.SaveChangesAsync();
             //save image
             var thumbnailImage = await _context.ProductImages.FirstOrDefaultAsync(x => x.IsDefault == true && x.ProductId == request.Id);
             if (thumbnailImage != null)
@@ -188,8 +203,10 @@ namespace miniStore.Application.Catalog.Products
                         from pic in p1.DefaultIfEmpty()
                         join c in _context.Categories on pic.CategoryId equals c.Id into p2
                         from c in p2.DefaultIfEmpty()
-                        where pt.LanguageId == request.LanguageId
-                        select new { p, pt, pic, c };
+                        join pi in _context.ProductImages on p.Id equals pi.ProductId into p3
+                        from pi in p3.DefaultIfEmpty()
+                        where pt.LanguageId == request.LanguageId 
+                        select new { p, pt, pic, c, pi };
 
             if (!string.IsNullOrEmpty(request.Keyword))
             {
@@ -220,11 +237,14 @@ namespace miniStore.Application.Catalog.Products
                         SeoTitle = x.pt.SeoTitle,
                         Stock = x.p.Stock,
                         ViewCount = x.p.ViewCount,
+                        ThumbnailImage = x.pi.ImagePath
                     }).ToListAsync();
             var pageResult = new PagedResult<ProductVM>()
             {
                 TotalRecord = totalRow,
                 Items = data,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
             };
             return pageResult;
         }
@@ -250,7 +270,7 @@ namespace miniStore.Application.Catalog.Products
             var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
             await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
-            return fileName;
+            return "/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
         }
 
         public async Task<int> AddImage(int productId, ProductImageCreateRequest request)
@@ -411,10 +431,13 @@ namespace miniStore.Application.Catalog.Products
                         join pt in _context.ProductTranslations on p.Id equals pt.ProductId
                         join pic in _context.ProductInCategories on p.Id equals pic.ProductId into p1
                         from pic in p1.DefaultIfEmpty()
-                        join c in _context.Categories on pic.CategoryId equals c.Id into p2
-                        from c in p2.DefaultIfEmpty()
-                        where pt.LanguageId == languageId
-                        select new { p, pt, pic };
+                        join pi in _context.ProductImages on p.Id equals pi.ProductId into p2
+                        from pi in p2.DefaultIfEmpty()
+                        join c in _context.Categories on pic.CategoryId equals c.Id into p3
+                        from c in p3.DefaultIfEmpty()
+                        where pt.LanguageId == languageId && (pi == null || pi.IsDefault == true) 
+                        && p.IsFeatured ==true
+                        select new { p, pt, pic,pi };
 
 
             var data = await query.OrderByDescending(x => x.p.DateCreated).Take(take)
@@ -434,6 +457,43 @@ namespace miniStore.Application.Catalog.Products
                         SeoTitle = x.pt.SeoTitle,
                         Stock = x.p.Stock,
                         ViewCount = x.p.ViewCount,
+                        ThumbnailImage = x.pi.ImagePath
+                    }).ToListAsync();
+            return data;
+        }
+
+        public async Task<List<ProductVM>> GetLatestProducts(string languageId, int take)
+        {
+            var query = from p in _context.Products
+                        join pt in _context.ProductTranslations on p.Id equals pt.ProductId
+                        join pic in _context.ProductInCategories on p.Id equals pic.ProductId into p1
+                        from pic in p1.DefaultIfEmpty()
+                        join pi in _context.ProductImages on p.Id equals pi.ProductId into p2
+                        from pi in p2.DefaultIfEmpty()
+                        join c in _context.Categories on pic.CategoryId equals c.Id into p3
+                        from c in p3.DefaultIfEmpty()
+                        where pt.LanguageId == languageId && (pi == null || pi.IsDefault == true)
+                        select new { p, pt, pic, pi };
+
+
+            var data = await query.OrderByDescending(x => x.p.DateCreated).Take(take)
+                .Select(
+                    x => new ProductVM()
+                    {
+                        Id = x.p.Id,
+                        Name = x.pt.Name,
+                        DateCreated = x.p.DateCreated,
+                        Description = x.pt.Description,
+                        Details = x.pt.Details,
+                        LanguageId = x.pt.LanguageId,
+                        OriginalPrice = x.p.OriginalPrice,
+                        Price = x.p.Price,
+                        SeoAlias = x.pt.SeoAlias,
+                        SeoDescription = x.pt.SeoDescription,
+                        SeoTitle = x.pt.SeoTitle,
+                        Stock = x.p.Stock,
+                        ViewCount = x.p.ViewCount,
+                        ThumbnailImage = x.pi.ImagePath
                     }).ToListAsync();
             return data;
         }

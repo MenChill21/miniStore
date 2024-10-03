@@ -16,5 +16,13 @@ namespace miniStore.ApiIntergration
         Task<ApiResult<bool>> CategoryAssign(int id, CategoryAssignRequest request);
 
         Task<List<ProductVM>> GetFeaturedProducts(string languageId, int take);
+
+        Task<List<ProductVM>> GetLatestProducts(string languageId, int take);
+
+        Task<bool> UpdateProduct(ProductUpdateRequest request);
+
+        Task<bool> DeleteProduct(int id);
+
+
     }
 }
