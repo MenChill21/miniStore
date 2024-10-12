@@ -1,4 +1,6 @@
+using FluentValidation.AspNetCore;
 using LazZiya.ExpressLocalization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -7,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using miniStore.ApiIntergration;
+using miniStore.ViewModels.System.Users;
 using miniStore.WebApp.LocalizationResources;
 using System;
 using System.Globalization;
@@ -31,8 +34,15 @@ namespace miniStore.WebApp
                 new CultureInfo("en"),
                 new CultureInfo("vi"),
             };
+			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+			  .AddCookie(options =>
+			  {
+				  //options.LoginPath = "/Login/Index/";
+				  options.AccessDeniedPath = "/User/Forbidden/";
+			  });
 
-            services.AddControllersWithViews()
+			services.AddControllersWithViews()
+				.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>())
                   .AddExpressLocalization<ExpressLocalizationResource, ViewLocalizationResource>(ops =>
                   {
                       // When using all the culture providers, the localization process will
@@ -71,6 +81,8 @@ namespace miniStore.WebApp
             services.AddTransient<ISlideApiClient, SlideApiClient>();
             services.AddTransient<IProductApiClient, ProductApiClient>();
             services.AddTransient<ICategoryApiClient, CategoryApiClient>();
+            services.AddTransient<IUserApiClient, UserApiClient>();
+
 
             services.AddRazorPages()
                 .AddRazorRuntimeCompilation();
@@ -92,6 +104,7 @@ namespace miniStore.WebApp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseAuthentication();
             app.UseRouting();
 
             app.UseAuthorization();
